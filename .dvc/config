@@ -1,4 +1,8 @@
 [core]
-    remote = dvcstore
+    remote = dvcstore3
 ['remote "dvcstore"']
     url = s3://electionpoll-bucket
+['remote "dvcstore2"']
+    url = s3://electionpoll-bucket
+['remote "dvcstore3"']
+    url = s3://dsmp-mlops-bucket
