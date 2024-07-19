@@ -1,0 +1,44 @@
+stages:
+  load_data:
+    cmd: python src/data_loader.py
+    deps:
+      - data/raw/hotel_bookings.csv
+      - src/data_loader.py
+    outs:
+      - data/processed/processed_data.pkl
+
+  preprocess:
+    cmd: python src/preprocessing.py
+    deps:
+      - src/data_loader.py
+      - data/processed/processed_data.pkl
+      - src/preprocessing.py
+    outs:
+      - models/preprocessor.pkl
+      - data/processed/X.pkl
+      - data/processed/y.pkl
+
+  train:
+    cmd: python model.py
+    deps:
+      - src/preprocessing.py
+      - data/processed/processed_data.pkl
+      - models/preprocessor.pkl
+      - data/processed/X.pkl
+      - data/processed/y.pkl
+      - src/model.py
+    outs:
+      - models/cv_results.npy
+      - models/model_pipe.pkl
+
+  evaluate:
+    cmd: python src/evaluation.py
+    deps:
+      - src/model.py
+      - models/cv_results.npy
+      - data/processed/X.pkl
+      - data/processed/y.pkl
+      - models/model_pipe.pkl
+      - src/evaluation.py
+    outs:
+      - results/metrics.json
