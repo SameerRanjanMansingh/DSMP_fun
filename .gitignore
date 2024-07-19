@@ -104,7 +104,3 @@ ENV/
 # IDE settings
 .vscode/
 .idea/
-/dummy.py
-notebooks/
-/data
-/models

@@ -4,6 +4,8 @@ import joblib
 from sklearn.metrics import precision_score, recall_score, f1_score
 import json
 
+
+
 def evaluate_model(cv_results: np.ndarray) -> dict:
     metrics = {
         "mean_score": round(np.mean(cv_results), 4),
@@ -24,13 +26,13 @@ def evaluate_additional_metrics(model, X_test: pd.DataFrame, y_test: pd.Series) 
 
 if __name__ == "__main__":
     try:
-        cv_results = np.load("cv_results.npy")
+        cv_results = np.load("models/cv_results.npy")
         basic_metrics = evaluate_model(cv_results)
         print(f"Cross-validation accuracy: {basic_metrics['mean_score']} +/- {basic_metrics['std_dev']} (std) min: {basic_metrics['min_score']}, max: {basic_metrics['max_score']}")
 
-        X = pd.read_pickle("X.pkl")
-        y = pd.read_pickle("y.pkl")
-        model_pipe = joblib.load("model_pipe.pkl")
+        X = pd.read_pickle("data/processed/X.pkl")
+        y = pd.read_pickle("data/processed/y.pkl")
+        model_pipe = joblib.load("models/model_pipe.pkl")
         
         from sklearn.model_selection import train_test_split
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random_state=42)
@@ -41,7 +43,7 @@ if __name__ == "__main__":
         metrics = {**basic_metrics, **additional_metrics}
         print(f"Precision: {metrics['precision']}, Recall: {metrics['recall']}, F1 Score: {metrics['f1']}")
 
-        with open("metrics.json", "w") as f:
+        with open("results/metrics.json", "w") as f:
             json.dump(metrics, f)
     except FileNotFoundError as e:
         print(f"Error: {e}")

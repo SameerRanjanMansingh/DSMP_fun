@@ -1,0 +1,114 @@
+schema: '2.0'
+stages:
+  load_data:
+    cmd: python src/data_loader.py
+    deps:
+    - path: data/raw/hotel_bookings.csv
+      hash: md5
+      md5: 5bf588c5a949443e021fb7c847d31b27
+      size: 16855599
+    - path: src/data_loader.py
+      hash: md5
+      md5: 4d295561618d5245bdc126d7e95804e4
+      size: 716
+    outs:
+    - path: data/processed/processed_data.pkl
+      hash: md5
+      md5: fd1aa55a13cd88041d48e179996944e5
+      size: 25177865
+  preprocess:
+    cmd: python src/preprocessing.py
+    deps:
+    - path: data/processed/processed_data.pkl
+      hash: md5
+      md5: fd1aa55a13cd88041d48e179996944e5
+      size: 25177865
+    - path: src/data_loader.py
+      hash: md5
+      md5: 4d295561618d5245bdc126d7e95804e4
+      size: 716
+    - path: src/preprocessing.py
+      hash: md5
+      md5: d39bf31f0f414fe89caaa42ab1b29b68
+      size: 1973
+    outs:
+    - path: data/processed/X.pkl
+      hash: md5
+      md5: 5d0e17e9c33a1eeb6b42724e876b2eaf
+      size: 18578709
+    - path: data/processed/y.pkl
+      hash: md5
+      md5: 5eab0c92ae6cdb30a7553af6691d35f8
+      size: 955740
+    - path: models/preprocessor.pkl
+      hash: md5
+      md5: 440cd5c125fc2f1ef3e5fd35196c85ca
+      size: 1262
+  train:
+    cmd: python src/model.py
+    deps:
+    - path: data/processed/X.pkl
+      hash: md5
+      md5: 5d0e17e9c33a1eeb6b42724e876b2eaf
+      size: 18578709
+    - path: data/processed/processed_data.pkl
+      hash: md5
+      md5: fd1aa55a13cd88041d48e179996944e5
+      size: 25177865
+    - path: data/processed/y.pkl
+      hash: md5
+      md5: 5eab0c92ae6cdb30a7553af6691d35f8
+      size: 955740
+    - path: models/preprocessor.pkl
+      hash: md5
+      md5: 440cd5c125fc2f1ef3e5fd35196c85ca
+      size: 1262
+    - path: src/model.py
+      hash: md5
+      md5: cc94efbc867251fb1866ff39f0e50c19
+      size: 1509
+    - path: src/preprocessing.py
+      hash: md5
+      md5: d39bf31f0f414fe89caaa42ab1b29b68
+      size: 1973
+    outs:
+    - path: models/cv_results.npy
+      hash: md5
+      md5: 2616dfe2ff5163f75d5b59b2511b1674
+      size: 160
+    - path: models/model_pipe.pkl
+      hash: md5
+      md5: 04d5612e5a4bf8643fcc96c17a4b439e
+      size: 1936
+  evaluate:
+    cmd: python src/evaluation.py
+    deps:
+    - path: data/processed/X.pkl
+      hash: md5
+      md5: 5d0e17e9c33a1eeb6b42724e876b2eaf
+      size: 18578709
+    - path: data/processed/y.pkl
+      hash: md5
+      md5: 5eab0c92ae6cdb30a7553af6691d35f8
+      size: 955740
+    - path: models/cv_results.npy
+      hash: md5
+      md5: 2616dfe2ff5163f75d5b59b2511b1674
+      size: 160
+    - path: models/model_pipe.pkl
+      hash: md5
+      md5: 04d5612e5a4bf8643fcc96c17a4b439e
+      size: 1936
+    - path: src/evaluation.py
+      hash: md5
+      md5: 4b4d1990a384729a2e573b8ba47caa93
+      size: 2060
+    - path: src/model.py
+      hash: md5
+      md5: cc94efbc867251fb1866ff39f0e50c19
+      size: 1509
+    outs:
+    - path: results/metrics.json
+      hash: md5
+      md5: 1182b3dfd4d9051f6e5d23ae5ca77a99
+      size: 169

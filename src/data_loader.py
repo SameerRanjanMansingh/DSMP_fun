@@ -18,6 +18,6 @@ def load_data(file_path: str) -> pd.DataFrame:
         raise
 
 if __name__ == "__main__":
-    file_path = "data/raw/hotel_bookinsgs.csv"
+    file_path = "data/raw/hotel_bookings.csv"
     data = load_data(file_path)
     data.to_pickle("data/processed/processed_data.pkl")

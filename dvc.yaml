@@ -19,7 +19,7 @@ stages:
       - data/processed/y.pkl
 
   train:
-    cmd: python model.py
+    cmd: python src/model.py
     deps:
       - src/preprocessing.py
       - data/processed/processed_data.pkl

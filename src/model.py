@@ -5,6 +5,8 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import KFold, cross_val_score
 import numpy as np
 
+
+
 def get_model() -> RandomForestClassifier:
     return RandomForestClassifier(n_estimators=160,
                                   max_features=0.4,
@@ -21,13 +23,13 @@ def train_model(X: pd.DataFrame, y: pd.Series, preprocessor, model: RandomForest
 
 if __name__ == "__main__":
     try:
-        X = pd.read_pickle("X.pkl")
-        y = pd.read_pickle("y.pkl")
-        preprocessor = joblib.load("preprocessor.pkl")
+        X = pd.read_pickle("data/processed/X.pkl")
+        y = pd.read_pickle("data/processed/y.pkl")
+        preprocessor = joblib.load("models/preprocessor.pkl")
         model = get_model()
         cv_results, model_pipe = train_model(X, y, preprocessor, model)
-        np.save("cv_results.npy", cv_results)
-        joblib.dump(model_pipe, "model_pipe.pkl")
+        np.save("models/cv_results.npy", cv_results)
+        joblib.dump(model_pipe, "models/model_pipe.pkl")
     except FileNotFoundError as e:
         print(f"Error: {e}")
         raise

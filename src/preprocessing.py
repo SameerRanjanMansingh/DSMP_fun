@@ -5,6 +5,8 @@ from sklearn.preprocessing import OneHotEncoder
 from sklearn.impute import SimpleImputer
 import joblib
 
+
+
 num_features = ["lead_time", "arrival_date_week_number", "arrival_date_day_of_month",
                 "stays_in_weekend_nights", "stays_in_week_nights", "adults", "children",
                 "babies", "is_repeated_guest", "previous_cancellations",
@@ -35,7 +37,7 @@ if __name__ == "__main__":
         preprocessor = preprocess_data()
         X = data[num_features + cat_features]
         y = data["is_canceled"]
-        joblib.dump(preprocessor, "preprocessor.pkl")
+        joblib.dump(preprocessor, "models/preprocessor.pkl")
         X.to_pickle("data/processed/X.pkl")
         y.to_pickle("data/processed/y.pkl")
     except FileNotFoundError:
