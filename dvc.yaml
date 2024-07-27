@@ -40,5 +40,3 @@ stages:
       - data/processed/y.pkl
       - models/model_pipe.pkl
       - src/evaluation.py
-    outs:
-      - results/metrics.json
